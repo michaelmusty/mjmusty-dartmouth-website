@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+<head>
+  <title>SolvableDessinsGraph</title>
+  <style type="text/css">
+    html, body {
+      color: #d3d3d3;
+      font: 12pt arial;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #mynetwork {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #444444;
+      background-color: gray;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+    var network = null;
+    var layoutMethod = "directed";
+    var len = undefined;
+    function destroy() {
+      if (network !== null) {
+        network.destroy();
+        network = null;
+      }
+    }
+    function draw() {
+      destroy();
+      var nodes = [];
+      var edges = [];
+      nodes.push({id: 1, label: 'PP1', group: 'size1', title: 'complex projective line'});
+      nodes.push({id: 21, label: '2T1', group: 'size1', title: '2T1-[2,2,1]-2-2-11-g0 : C2 : Size 1'});
+      nodes.push({id: 411, label: '4T1:1', group: 'size1', title: '4T1-[4,4,1]-4-4-1111-g0 : C4 : Size 1'});
+      nodes.push({id: 412, label: '4T1:2', group: 'size1', title: '4T1-[4,4,2]-4-4-22-g1 : C4 : Size 1'});
+      nodes.push({id: 421, label: '4T2', group: 'size1', title: '4T2-[2,2,2]-22-22-22-g0 : C4xC4 : Size 1'});
+      nodes.push({id: 811, label: '8T1:1', group: 'size1', title: '8T1-[8,8,1]-8-8-11111111-g0 : C8 : Size 1'});
+      nodes.push({id: 812, label: '8T1:2', group: 'size1', title: '8T1-[8,8,2]-8-8-2222-g2 : C8 : Size 1'});
+      nodes.push({id: 813, label: '8T1:3', group: 'sizeN', title: '8T1-[8,8,4]-8-8-44-g3 : C8 : Size 2'});
+      nodes.push({id: 821, label: '8T2', group: 'size1', title: '8T2-[4,4,2]-44-44-2222-g1 : C4xC2 : Size 1'});
+      nodes.push({id: 841, label: '8T4', group: 'size1', title: '8T4-[2,2,4]-2222-2222-44-g0 : D8 : Size 1'});
+      nodes.push({id: 851, label: '8T5', group: 'size1', title: '8T5-[4,4,4]-44-44-44-g2 : Q8 : Size 1'});
+      nodes.push({id: 16011, label: '16T1:1', group: 'size1', title: '16T1-[16,16,1]-16-16-1111111111111111-g0 : C16 : Size 1'});
+      nodes.push({id: 16012, label: '16T1:2', group: 'size1', title: '16T1-[16,16,2]-16-16-22222222-g4 : C16 : Size 1'});
+      nodes.push({id: 16013, label: '16T1:3', group: 'sizeN', title: '16T1-[16,16,4]-16-16-4444-g6 : C16 : Size 2'});
+      nodes.push({id: 16014, label: '16T1:4', group: 'sizeN', title: '16T1-[16,16,8]-16-16-88-g7 : C16 : Size 4 (2 Galois orbits?)'});
+      nodes.push({id: 16041, label: '16T4', group: 'size1', title: '16T4-[4,4,4]-4444-4444-4444-g3 : C4xC4 : Size 1'});
+      nodes.push({id: 16051, label: '16T5:1', group: 'size1', title: '16T5-[8,8,2]-88-88-22222222-g3 : C8xC2 : Size 1'});
+      nodes.push({id: 16052, label: '16T5:2', group: 'size1', title: '16T5-[8,8,4]-88-88-4444-g5 : C8xC2 : Size 1'});
+      nodes.push({id: 16061, label: '16T6:1', group: 'size1', title: '16T6-[8,8,2]-88-88-22222222-g3 : (C8:C2) : Size 1'});
+      nodes.push({id: 16062, label: '16T6:2', group: 'size1', title: '16T6-[8,8,4]-88-88-4444-g5 : (C8:C2) : Size 1'});
+      nodes.push({id: 16081, label: '16T8', group: 'sizeN', title: '16T8-[4,4,4]-4444-4444-4444-g3 : (C4:C4) : Size 3 (unramified over 8T5?)'});
+      nodes.push({id: 16101, label: '16T10', group: 'size1', title: '16T10-[2,4,4]-22222222-4444-4444-g1 : ((C2xC2):C4) : Size 1'});
+      nodes.push({id: 16121, label: '16T12', group: 'size1', title: '16T12-[2,4,8]-22222222-4444-88-g2 : QD16 : Size 1'});
+      nodes.push({id: 16131, label: '16T13', group: 'size1', title: '16T13-[2,2,8]-22222222-22222222-88-g0 : D16 : Size 1'});
+      nodes.push({id: 16141, label: '16T14', group: 'size1', title: '16T14-[4,4,8]-4444-4444-88-g4 : Q16 : Size 1'});
+      nodes.push({id: 32323, label: '32T32:3', group: 'sizeN', title: '32T32-[16,16,8]-g13 : NC=1 : Size 2'});
+      nodes.push({id: 32322, label: '32T32:2', group: 'size1', title: '32T32-[16,16,4]-g11 : NC=1 : Size 1'});
+      nodes.push({id: 32321, label: '32T32:1', group: 'size1', title: '32T32-[16,16,2]-g7 : NC=1 : Size 1'});
+      nodes.push({id: 32334, label: '32T33:4', group: 'sizeN', title: '32T33-[32,32,8]-g14 : NC=1 : Size 4'});
+      nodes.push({id: 32332, label: '32T33:2', group: 'size1', title: '32T33-[32,32,2]-g8 : NC=1 : Size 1'});
+      nodes.push({id: 32331, label: '32T33:1', group: 'size1', title: '32T33-[32,32,1]-g0 : NC=1 : Size 1'});
+      nodes.push({id: 32333, label: '32T33:3', group: 'sizeN', title: '32T33-[32,32,4]-g12 : NC=1 : Size 2'});
+      nodes.push({id: 32335, label: '32T33:5', group: 'sizeN', title: '32T33-[32,32,16]-g15 : NC=1 : Size 8'});
+      nodes.push({id: 32411, label: '32T41', group: 'size1', title: '32T41-[4,4,4]-g5 : NC=2 : Size 1'});
+      nodes.push({id: 32421, label: '32T42', group: 'size1', title: '32T42-[8,8,4]-g9 : NC=2 : Size 1'});
+      nodes.push({id: 32431, label: '32T43', group: 'size1', title: '32T43-[8,8,4]-g9 : NC=1 : Size 1'});
+      nodes.push({id: 32083, label: '32T8:3', group: 'sizeN', title: '32T8-[16,16,8]-g13 : NC=2 : Size 2'});
+      nodes.push({id: 32082, label: '32T8:2', group: 'size1', title: '32T8-[16,16,4]-g11 : NC=2 : Size 1'});
+      nodes.push({id: 32081, label: '32T8:1', group: 'size1', title: '32T8-[16,16,2]-g7 : NC=2 : Size 1'});
+      nodes.push({id: 32102, label: '32T10:2', group: 'size1', title: '32T10-[8,8,4]-g9 : NC=2 : Size 1'});
+      nodes.push({id: 32101, label: '32T10:1', group: 'size1', title: '32T10-[8,8,2]-g5 : NC=2 : Size 1'});
+      nodes.push({id: 32441, label: '32T44', group: 'sizeN', title: '32T44-[8,8,4]-g9 : NC=2 : Size 2'});
+      nodes.push({id: 32281, label: '32T28', group: 'sizeN', title: '32T28-[8,8,8]-g11 : NC=3 : Size 6'});
+      nodes.push({id: 32471, label: '32T47', group: 'size1', title: '32T47-[4,4,8]-g7 : NC=3 : Size 1'});
+      nodes.push({id: 32481, label: '32T48', group: 'size1', title: '32T48-[4,4,8]-g7 : NC=3 : Size 1'});
+      nodes.push({id: 32121, label: '32T12', group: 'size1', title: '32T12-[2,4,8]-g3 : NC=3 : Size 1'});
+      nodes.push({id: 32141, label: '32T14:1', group: 'size1', title: '32T14-[2,4,8]-g3 : NC=3 : Size 1'});
+      nodes.push({id: 32142, label: '32T14:2', group: 'sizeN', title: '32T14-[4,4,8]-g7 : NC=3 : Size 2'});
+      nodes.push({id: 32192, label: '32T19:2', group: 'sizeN', title: '32T19-[4,4,4]-g5 : NC=3 : Size 3'});
+      nodes.push({id: 32191, label: '32T19:1', group: 'size1', title: '32T19-[2,4,4]-g1 : NC=3 : Size 1'});
+      nodes.push({id: 32221, label: '32T22', group: 'size1', title: '32T22-[2,8,8]-g5 : NC=3 : Size 1'});
+      nodes.push({id: 32251, label: '32T25', group: 'size1', title: '32T25-[4,8,8]-g9 : NC=3 : Size 1'});
+      nodes.push({id: 32501, label: '32T50', group: 'sizeN', title: '32T50-[4,4,8]-g7 : NC=3 : Size 2'});
+      nodes.push({id: 32301, label: '32T30', group: 'size1', title: '32T30-[2,4,16]-g4 : NC=4 : Size 1'});
+      nodes.push({id: 32311, label: '32T31', group: 'size1', title: '32T31-[2,2,16]-g0 : NC=4 : Size 1'});
+      nodes.push({id: 32511, label: '32T51', group: 'size1', title: '32T51-[4,4,16]-g8 : NC=4 : Size 1'});
+        edges.push({from: 21, to: 1});
+        edges.push({from: 411, to: 21});
+        edges.push({from: 412, to: 21});
+        edges.push({from: 421, to: 21});
+        edges.push({from: 811, to: 411});
+        edges.push({from: 812, to: 411});
+        edges.push({from: 813, to: 412});
+        edges.push({from: 821, to: 411});
+        edges.push({from: 821, to: 421});
+        edges.push({from: 841, to: 421});
+        edges.push({from: 851, to: 421});
+        edges.push({from: 16011, to: 811});
+        edges.push({from: 16012, to: 811});
+        edges.push({from: 16013, to: 812});
+        edges.push({from: 16014, to: 813});
+        edges.push({from: 16041, to: 821});
+        edges.push({from: 16051, to: 811});
+        edges.push({from: 16051, to: 821});
+        edges.push({from: 16052, to: 821});
+        edges.push({from: 16061, to: 821});
+        edges.push({from: 16062, to: 821});
+        edges.push({from: 16081, to: 821});
+        edges.push({from: 16081, to: 851, dashes:true});
+        edges.push({from: 16081, to: 841});
+        edges.push({from: 16101, to: 841});
+        edges.push({from: 16121, to: 841});
+        edges.push({from: 16131, to: 841});
+        edges.push({from: 16141, to: 841});
+        edges.push({from: 32323, to: 16013});
+        edges.push({from: 32323, to: 16052});
+        edges.push({from: 32322, to: 16012});
+        edges.push({from: 32322, to: 16051});
+        edges.push({from: 32321, to: 16011});
+        edges.push({from: 32321, to: 16051});
+        edges.push({from: 32334, to: 16013});
+        edges.push({from: 32334, to: 16014});
+        edges.push({from: 32332, to: 16011});
+        edges.push({from: 32332, to: 16012});
+        edges.push({from: 32331, to: 16011});
+        edges.push({from: 32333, to: 16012});
+        edges.push({from: 32333, to: 16013});
+        edges.push({from: 32335, to: 16014});
+        edges.push({from: 32411, to: 16041, dashes:true});
+        edges.push({from: 32411, to: 16081, dashes:true});
+        edges.push({from: 32411, to: 16101});
+        edges.push({from: 32421, to: 16041});
+        edges.push({from: 32421, to: 16061});
+        edges.push({from: 32421, to: 16062, dashes:true});
+        edges.push({from: 32431, to: 16041});
+        edges.push({from: 32431, to: 16051});
+        edges.push({from: 32431, to: 16052, dashes:true});
+        edges.push({from: 32083, to: 16052});
+        edges.push({from: 32082, to: 16052});
+        edges.push({from: 32082, to: 16051});
+        edges.push({from: 32081, to: 16051});
+        edges.push({from: 32102, to: 16051});
+        edges.push({from: 32102, to: 16052, dashes:true});
+        edges.push({from: 32102, to: 16061});
+        edges.push({from: 32102, to: 16062, dashes:true});
+        edges.push({from: 32101, to: 16051, dashes:true});
+        edges.push({from: 32101, to: 16061, dashes:true});
+        edges.push({from: 32441, to: 16051});
+        edges.push({from: 32441, to: 16052, dashes:true});
+        edges.push({from: 32441, to: 16061});
+        edges.push({from: 32441, to: 16062, dashes:true});
+        edges.push({from: 32441, to: 16081});
+      edges.push({from: 32281, to: 16081});
+      edges.push({from: 32471, to: 16081});
+      edges.push({from: 32471, to: 16101});
+      edges.push({from: 32481, to: 16081});
+      edges.push({from: 32481, to: 16131});
+      edges.push({from: 32481, to: 16141, dashes:true});
+      edges.push({from: 32121, to: 16101});
+      edges.push({from: 32121, to: 16131});
+      edges.push({from: 32141, to: 16101});
+      edges.push({from: 32142, to: 16101});
+      edges.push({from: 32192, to: 16101});
+      edges.push({from: 32191, to: 16101, dashes:true});
+      edges.push({from: 32221, to: 16101});
+      edges.push({from: 32251, to: 16101});
+      edges.push({from: 32501, to: 16101});
+      edges.push({from: 32501, to: 16141, dashes:true});
+      edges.push({from: 32301, to: 16131});
+      edges.push({from: 32311, to: 16131});
+      edges.push({from: 32511, to: 16131});
+      // create a network
+      var container = document.getElementById('mynetwork');
+      var data = {
+        nodes: nodes,
+        edges: edges
+      };
+      var options = {
+        nodes: {
+          shape: 'box',
+          size: 15,
+          font: {
+            size: 15,
+          },
+          borderWidth: 1,
+          shadow: true
+        },
+        edges: {
+          width: 2,
+          shadow: true,
+          smooth: true,
+          arrows: {to : true }
+        },
+        groups: {
+          size1: {
+            color: {background: 'white', border: 'black'}
+          },
+          sizeN: {
+            color: {background: 'red', border: 'black'}
+          }
+        },
+        interaction: {
+          hover: true
+        },
+        layout: {
+          randomSeed: 2,
+          // hierarchical: {
+          //   sortMethod: layoutMethod
+          // }
+        },
+      };
+      network = new vis.Network(container, data, options);
+    }
+  </script>
+</head>
+<body onload="draw();">
+  <div id="mynetwork"></div>
+</body>
+</html>
