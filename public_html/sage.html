@@ -40,16 +40,8 @@ def _(M=input_grid(4,4,default = [[-1,2,3,4],[5,-6,7,8],[9,10,-11,12],[13,14,15,
     pretty_print('Matrix determinant is:', M.det())
     </div>
     <div class="asagecell">
-      <!--
-      f = x^3; p=plot(f); x0 = .5; y0 = f(x0); q = point((x0, y0), color='blue', size=50); g=f.derivative(); r=line([(x0-.5, y0-g(x0)*.5),(x0+.5, y0+g(x0)*.5)], color='green'); (p+q+r).show()
-      -->
-      @interact def funplot(f, x0):
-      f = x^3;
-      p=plot(f);
-      x0 = .5; y0 = f(x0);
-      q = point((x0, y0), color='blue', size=50);
-      g=f.derivative();
-      r=line([(x0-.5, y0-g(x0)*.5),(x0+.5, y0+g(x0)*.5)], color='green');
-      (p+q+r).show()
+      @interact
+def _(f=input_box(default=x^2-2*x+3,label='Function: '), s=input_box(default='Quadratic', label='Plot Label: ',type=str)):
+      plot(f,-4,4,title=s).show()
     </div>
   </div>
