@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Sage Workshop</title>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width"></meta>
+    <script src="https://sagecell.sagemath.org/static/jquery.min.js"></script>
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+      $(function () {
+      setTimeout(function() {
+      sagecell.loadMathJax=false;
+      sagecell.makeSagecell({inputLocation: '.asagecell'});
+      sagecell.makeSagecell({inputLocation: '.aoctavecell',
+      defaultLanguage: "octave", languages: sagecell.allLanguages});
+      }, 1000);
+
+      //console.log(MathJax);
+      });
+    </script>
+  <script>
+    $(function() {
+      $(document).on("click", '.collapsible .title', function(e) {
+        var body = $(e.target.parentElement).find('.body').slideToggle("fast").find('.CodeMirror').each(function(i, e) {e.CodeMirror.refresh()});
+      });
+    });
+  </script>
+
+</head>
+  <body>
+  <h1>
+    Sage Workshop Cell
+  </h1>
+  <div class="body">
+    <div class="asagecell">
+      @interact
+def _(M=input_grid(4,4,default = [[-1,2,3,4],[5,-6,7,8],[9,10,-11,12],[13,14,15,-16]],label='Matrix: ', to_value=matrix)):
+    pretty_print('Matrix determinant is:', M.det())
+    </div>
+    <div class="asagecell">
+      @interact
+def _(f=input_box(default=x^2-2*x+3,label='Function: '), s=input_box(default='Quadratic', label='Plot Label: ',type=str)):
+      plot(f,-4,4,title=s).show()
+    </div>
+  </div>
