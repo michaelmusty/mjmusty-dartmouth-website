@@ -1,0 +1,44 @@
+
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Sage Workshop</title>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <meta name="viewport" content="width=device-width"></meta>
+
+  <script src="https://sagecell.sagemath.org/static/jquery.min.js"></script>
+  <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+  <script>
+  $(function () {
+
+  setTimeout(function() {
+  sagecell.loadMathJax=false;
+  sagecell.makeSagecell({inputLocation: '.asagecell'});
+  sagecell.makeSagecell({inputLocation: '.aoctavecell',
+  defaultLanguage: "octave", languages: sagecell.allLanguages});
+  }, 1000);
+
+  //console.log(MathJax);
+  });
+  </script>
+  <script>
+  $(function() {
+  $(document).on("click", '.collapsible .title', function(e) {
+  var body = $(e.target.parentElement).find('.body').slideToggle("fast").find('.CodeMirror').each(function(i, e) {e.CodeMirror.refresh()});
+  });
+  });
+  </script>
+
+</head>
+  <body>
+
+
+  <h1> Sage Workshop Cell</h1>
+
+
+Press ``Evaluate'' to start/run the Sage cell.
+  <div class="body"><div class="asagecell">
+1+1
+</div></div>
