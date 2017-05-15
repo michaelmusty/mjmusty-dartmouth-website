@@ -34,20 +34,36 @@
   
    Click the “Activate” button below compute infinite series.
     <div id="mycell"><script type="text/x-sage">
-@interact 
-def animate_example(a=input_box(default=-3,label='xmin: '),b=input_box(default=5,label='xmax: '),x0=input_box(default=1,label='x_0: '),n=input_box(default=15,label='Order: '), f=input_box(default=sin(x)*e^(-x),label='Function: ')):
+var('n')
 
-    p=plot(f,a,b,thickness=2,legend_label='f')
-    dot = point((x0,f(x=x0)),pointsize=80,rgbcolor=(1,0,0))
-    ps=[p+dot]
-    for i in range(1,n):
-        fti = f.taylor(x,x0,i)
-        pt = plot(fti,a, b, color='red', thickness=2,legend_label='Taylor Approximation n='+str(i))
-        ps.append(p+dot+pt)
+
+@interact
+def _(s=input_box(default=1/(n^2),label='Summand:'),l=input_box(default=1,label='Lower Bound:'),u=input_box(default=infinity,label='Upper Bound:'),terms=input_box(default=100,label='Terms to plot:'),guess=input_box(default=pi^2/6,label='Sum value:'),err=input_box(default=.1,label='Error Tolerance:'),YMin=input_box(default=1.5,label='Ymin:'),YMax=input_box(default=1.8,label='Ymax:')):
+ 
+
+  a= sum(s,n,l,u)
+  pretty_print(html('$$\sum_{n=%s}^{%s}%s=%s$$'%(l,latex(u),latex(s),latex(a))))
+  pretty_print(html('$$\sum_{n=%s}^{%s}%s=%s$$'%(l,latex(u),latex(s),N(a))))
+
+
+  #pretty_print(html('$f(x)\;=\;%s$'%latex(f)))
+  #show(dot + p + pt, ymin=c,ymax=d)
     
-    a=animate(ps)
-    a.show(delay=100)
+  x=[]
+  y=[]
+  for i in range(l,l+terms):
+	x.append(i)
+	y.append(sum(s,n,l,i))
+  p=list_plot([[x[i],y[i]] for i in range(len(x))])
+  
+  lin=line([(0,guess),(l+terms,guess)], color="green", thickness=2 )
+  lin1=line([(0,guess+err),(l+terms,guess+err)], color="red", thickness=2 )
+  lin2=line([(0,guess-err),(l+terms,guess-err)], color="red", thickness=2 )
+  
+  p1=p+lin+lin1+lin2
+
+  p.show(ymin=YMin,ymax=YMax)
+  p1.show(ymin=YMin,ymax=YMax)
 
      </script>
 </div>
- 
