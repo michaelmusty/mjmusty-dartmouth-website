@@ -39,4 +39,12 @@
 def _(M=input_grid(4,4,default = [[-1,2,3,4],[5,-6,7,8],[9,10,-11,12],[13,14,15,-16]],label='Matrix: ', to_value=matrix)):
     pretty_print('Matrix determinant is:', M.det())
     </div>
+    <div class="asagecell">
+      f = x^3
+      p=plot(f)
+      x0 = .5
+      y0 = f(x0)
+      q = point((x0, y0), color='blue', size=50)
+      (p+q).show()
+    </div>
   </div>
